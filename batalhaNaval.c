@@ -1,57 +1,46 @@
 #include <stdio.h>
 
 /**
- * Batalha Naval - Nível Novato
- * Foco: Matrizes, Vetores e Posicionamento
+ * Batalha Naval - Nível Aventureiro
+ * Foco: Matrizes e Posicionamento Diagonal
  */
 
 int main() {
-    // Definição das dimensões do tabuleiro e tamanho dos navios
-    #define TAM_TABULEIRO 10
-    #define TAM_NAVIO 3
-
-    // Inicialização da matriz do tabuleiro com 0 (Água)
-    int tabuleiro[TAM_TABULEIRO][TAM_TABULEIRO];
+    #define TAM 10
+    #define NAVIO 3
     
-    // Zerando o tabuleiro usando loops aninhados
-    for (int i = 0; i < TAM_TABULEIRO; i++) {
-        for (int j = 0; j < TAM_TABULEIRO; j++) {
-            tabuleiro[i][j] = 0;
-        }
+    // Inicializa o tabuleiro 10x10 com 0 (Água)
+    int tabuleiro[TAM][TAM] = {0};
+
+    // 1. NAVIO HORIZONTAL (Linha 1, Coluna 1 a 3)
+    for (int j = 1; j < 1 + NAVIO; j++) {
+        tabuleiro[1][j] = 3;
     }
 
-    // Vetores que representam os navios (cada posição com valor 3)
-    int navioHorizontal[TAM_NAVIO] = {3, 3, 3};
-    int navioVertical[TAM_NAVIO] = {3, 3, 3};
-
-    // Coordenadas iniciais (Lembre-se: índices em C começam em 0)
-    int linhaH = 2, colunaH = 1; // Navio Horizontal começa em [2][1]
-    int linhaV = 5, colunaV = 8; // Navio Vertical começa em [5][8]
-
-    // --- Posicionamento do Navio Horizontal ---
-    // Verificamos se cabe no tabuleiro: colunaH + TAM_NAVIO deve ser <= TAM_TABULEIRO
-    if (colunaH + TAM_NAVIO <= TAM_TABULEIRO) {
-        for (int i = 0; i < TAM_NAVIO; i++) {
-            tabuleiro[linhaH][colunaH + i] = navioHorizontal[i];
-        }
+    // 2. NAVIO VERTICAL (Linha 6 a 8, Coluna 2)
+    for (int i = 6; i < 6 + NAVIO; i++) {
+        tabuleiro[i][2] = 3;
     }
 
-    // --- Posicionamento do Navio Vertical ---
-    // Verificamos se cabe no tabuleiro: linhaV + TAM_NAVIO deve ser <= TAM_TABULEIRO
-    if (linhaV + TAM_NAVIO <= TAM_TABULEIRO) {
-        for (int i = 0; i < TAM_NAVIO; i++) {
-            // Aqui incrementamos a linha, mantendo a coluna fixa
-            tabuleiro[linhaV + i][colunaV] = navioVertical[i];
-        }
+    // 3. NAVIO DIAGONAL (Descendente: Linha e Coluna aumentam)
+    // Coordenada inicial: [2][5]. Posições: [2][5], [3][6], [4][7]
+    for (int k = 0; k < NAVIO; k++) {
+        tabuleiro[2 + k][5 + k] = 3;
     }
 
-    // --- Exibição do Tabuleiro ---
-    printf("--- TABULEIRO BATALHA NAVAL ---\n\n");
-    for (int i = 0; i < TAM_TABULEIRO; i++) {
-        for (int j = 0; j < TAM_TABULEIRO; j++) {
+    // 4. NAVIO DIAGONAL (Ascendente: Linha aumenta, Coluna diminui)
+    // Coordenada inicial: [7][7]. Posições: [7][7], [8][6], [9][5]
+    for (int k = 0; k < NAVIO; k++) {
+        tabuleiro[7 + k][7 - k] = 3;
+    }
+
+    // EXIBIÇÃO DO TABULEIRO
+    printf("--- TABULEIRO AVENTUREIRO (10x10) ---\n\n");
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
             printf("%d ", tabuleiro[i][j]);
         }
-        printf("\n"); // Quebra de linha ao final de cada linha da matriz
+        printf("\n");
     }
 
     return 0;
